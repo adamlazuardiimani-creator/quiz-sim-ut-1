@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz SIM - Universitas Terbuka</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg, #2196f3, #21cbf3);
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 900px;
+    background: #fff;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+h1 {
+    text-align: center;
+    color: #2196f3;
+}
+.question {
+    margin-bottom: 15px;
+}
+.options label {
+    display: block;
+    padding: 8px;
+    margin: 5px 0;
+    background: #f1f1f1;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.options input {
+    margin-right: 8px;
+}
+button {
+    background: #2196f3;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background: #1976d2;
+}
+#result {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+.correct {
+    background: #c8e6c9;
+}
+.wrong {
+    background: #ffcdd2;
+}
+@media (max-width: 600px) {
+    h1 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Quiz Sistem Informasi Manajemen (UT)</h1>
+
+<form id="quizForm">
+
+<script>
+const questions = [
+{q:"1. Sistem Informasi Manajemen bertujuan utama untuk…", o:["Mengolah data menjadi informasi","Menghapus data lama","Menyimpan arsip manual","Mengganti manajer"], a:0},
+{q:"2. Keunggulan kompetitif menurut Porter adalah…", o:["Keuntungan sementara","Posisi unggul dibanding pesaing","Monopoli pasar","Keuntungan pemerintah"], a:1},
+{q:"3. Contoh teknologi cloud computing adalah…", o:["Flashdisk","Google Drive","Harddisk","CD-ROM"], a:1},
+{q:"4. Perangkat keras yang berfungsi memproses data adalah…", o:["Monitor","CPU","Keyboard","Mouse"], a:1},
+{q:"5. Jaringan yang mencakup area luas disebut…", o:["LAN","MAN","WAN","PAN"], a:2},
+{q:"6. Sistem yang mencatat transaksi harian disebut…", o:["DSS","ESS","TPS","MIS"], a:2},
+{q:"7. ERP berfungsi untuk…", o:["Mengintegrasikan proses bisnis","Menghapus data","Mengganti SDM","Menjual produk"], a:0},
+{q:"8. E-commerce B2C adalah…", o:["Perusahaan ke perusahaan","Perusahaan ke konsumen","Konsumen ke konsumen","Pemerintah ke masyarakat"], a:1},
+{q:"9. SDLC adalah singkatan dari…", o:["System Data Life Cycle","System Development Life Cycle","Software Data Loop Control","System Design Logic Control"], a:1},
+{q:"10. Tahap awal SDLC adalah…", o:["Implementasi","Analisis","Pemeliharaan","Evaluasi"], a:1},
+
+{q:"11. DSS membantu manajer dalam…", o:["Pengambilan keputusan","Pencatatan data","Pengarsipan","Pemrograman"], a:0},
+{q:"12. Contoh output sistem informasi adalah…", o:["Data mentah","Informasi laporan","Kode program","File mentah"], a:1},
+{q:"13. Database berfungsi untuk…", o:["Menyimpan data terstruktur","Menampilkan video","Memproses gambar","Mencetak dokumen"], a:0},
+{q:"14. Contoh DBMS adalah…", o:["Windows","MySQL","Linux","Chrome"], a:1},
+{q:"15. Jaringan nirkabel disebut…", o:["Fiber","Wireless","LAN","Kabel UTP"], a:1},
+
+{q:"16. Firewall digunakan untuk…", o:["Mengamankan jaringan","Menyimpan data","Meningkatkan kecepatan","Menghapus virus"], a:0},
+{q:"17. Malware adalah…", o:["Perangkat keras","Program berbahaya","Sistem operasi","Aplikasi legal"], a:1},
+{q:"18. Backup data bertujuan untuk…", o:["Menghapus data","Mengamankan data","Menggandakan virus","Memperlambat sistem"], a:1},
+{q:"19. Brainware adalah…", o:["Pengguna sistem","Perangkat lunak","Perangkat keras","Database"], a:0},
+{q:"20. Artificial Intelligence meniru…", o:["Perilaku manusia","Data statis","Mesin cetak","Sistem manual"], a:0},
+
+{q:"21. Big data dicirikan oleh…", o:["Volume besar","Data kecil","Proses manual","Tanpa internet"], a:0},
+{q:"22. MIS mendukung level manajemen…", o:["Operasional","Menengah","Puncak","Teknis"], a:1},
+{q:"23. ESS digunakan oleh…", o:["Manajer puncak","Staf","Operator","Teknisi"], a:0},
+{q:"24. Proyek TI memerlukan…", o:["Manajemen waktu","Tanpa rencana","Tanpa biaya","Tanpa risiko"], a:0},
+{q:"25. Risiko proyek TI harus…", o:["Dikelola","Diabaikan","Dihapus","Diperbesar"], a:0},
+
+{q:"26. E-business lebih luas dari e-commerce karena…", o:["Mencakup seluruh proses bisnis","Hanya jual beli","Tanpa internet","Manual"], a:0},
+{q:"27. UML digunakan untuk…", o:["Pemodelan sistem","Backup data","Keamanan","Pemasaran"], a:0},
+{q:"28. Sistem terintegrasi meningkatkan…", o:["Efisiensi","Kesalahan","Biaya","Duplikasi"], a:0},
+{q:"29. Keamanan informasi mencakup…", o:["Kerahasiaan","Ketersediaan","Integritas","Semua benar"], a:3},
+{q:"30. UU ITE mengatur tentang…", o:["Teknologi informasi","Pertanian","Transportasi","Pariwisata"], a:0},
+
+{q:"31. Data yang sudah diolah disebut…", o:["Informasi","Fakta","File","Dokumen"], a:0},
+{q:"32. LAN biasanya digunakan di…", o:["Gedung","Negara","Benua","Global"], a:0},
+{q:"33. Server berfungsi untuk…", o:["Melayani client","Mencetak","Menggambar","Mengetik"], a:0},
+{q:"34. Cloud storage memerlukan…", o:["Internet","Flashdisk","CD","Printer"], a:0},
+{q:"35. Tahap implementasi berarti…", o:["Penerapan sistem","Perencanaan","Analisis","Evaluasi"], a:0},
+
+{q:"36. Maintenance sistem bertujuan…", o:["Menjaga kinerja","Merusak sistem","Menghapus data","Mengganti pengguna"], a:0},
+{q:"37. Data primer diperoleh dari…", o:["Sumber langsung","Internet","Buku","Arsip lama"], a:0},
+{q:"38. Hak cipta melindungi…", o:["Karya intelektual","Data publik","Informasi umum","Perangkat keras"], a:0},
+{q:"39. Phishing bertujuan untuk…", o:["Mencuri data","Mengamankan data","Backup","Update sistem"], a:0},
+{q:"40. Sistem informasi mendukung…", o:["Strategi bisnis","Kesalahan data","Biaya tinggi","Kinerja buruk"], a:0},
+
+{q:"41. Contoh input sistem informasi adalah…", o:["Data transaksi","Laporan","Grafik","Keputusan"], a:0},
+{q:"42. Output DSS berupa…", o:["Alternatif keputusan","Data mentah","Kode","Arsip"], a:0},
+{q:"43. Sistem manual bersifat…", o:["Lambat","Efisien","Akurat","Otomatis"], a:0},
+{q:"44. Proses bisnis harus…", o:["Efektif dan efisien","Manual","Berulang","Tidak terdokumentasi"], a:0},
+{q:"45. Teknologi informasi membantu…", o:["Produktivitas","Kemacetan","Pemborosan","Kesalahan"], a:0},
+
+{q:"46. Contoh C2C adalah…", o:["Tokopedia","Facebook Marketplace","Shopee Mall","Amazon"], a:1},
+{q:"47. Sistem informasi bersifat…", o:["Terintegrasi","Terpisah","Manual","Statis"], a:0},
+{q:"48. Proyek TI memerlukan dokumentasi untuk…", o:["Kontrol dan evaluasi","Memperumit","Menghapus data","Menghambat"], a:0},
+{q:"49. Infrastruktur TI mencakup…", o:["Hardware, software, jaringan","SDM saja","Data saja","Aplikasi saja"], a:0},
+{q:"50. Tujuan utama SIM adalah…", o:["Mendukung keputusan manajemen","Mengganti manusia","Menghapus data","Menyimpan arsip"], a:0}
+];
+
+let html = "";
+questions.forEach((q,i)=>{
+html += `<div class="question">
+<p>${q.q}</p>
+<div class="options">
+${q.o.map((opt,j)=>`
+<label>
+<input type="radio" name="q${i}" value="${j}"> ${opt}
+</label>`).join("")}
+</div></div>`;
+});
+document.write(html);
+</script>
+
+<button type="button" onclick="checkAnswer()">Submit Jawaban</button>
+</form>
+
+<div id="result"></div>
+</div>
+
+<script>
+function checkAnswer(){
+let score = 0;
+questions.forEach((q,i)=>{
+let selected = document.querySelector(`input[name="q${i}"]:checked`);
+if(selected){
+let labels = document.querySelectorAll(`input[name="q${i}"]`);
+labels.forEach((l,idx)=>{
+if(idx === q.a) l.parentElement.classList.add("correct");
+else if(l.checked) l.parentElement.classList.add("wrong");
+});
+if(parseInt(selected.value) === q.a) score++;
+}
+});
+document.getElementById("result").innerHTML =
+`<b>Skor Anda: ${score} / ${questions.length}</b>`;
+}
+</script>
+
+</body>
+</html>
